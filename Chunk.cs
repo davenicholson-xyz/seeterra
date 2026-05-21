@@ -43,11 +43,9 @@ public partial class Chunk : Node3D
         var uvs     = new List<Vector2>();
         var indices = new List<int>();
 
-        int size = ChunkManager.ChunkSize;
-
-        for (int x = 0; x < size; x++)
-        for (int y = 0; y < size; y++)
-        for (int z = 0; z < size; z++)
+        for (int x = 0; x < ChunkManager.ChunkSize; x++)
+        for (int y = 0; y < ChunkManager.WorldHeight + 8; y++)
+        for (int z = 0; z < ChunkManager.ChunkSize; z++)
         {
             if (!IsSolid(x, y, z)) continue;
 

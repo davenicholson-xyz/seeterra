@@ -4,29 +4,54 @@ using System.Collections.Generic;
 public partial class ChunkManager : Node3D
 {
     public const int ChunkSize = 16;
-    public const int WorldHeight = 3;
-    public const int WorldSize = 3;
+    public const int WorldHeight = 16;
+    public const int WorldSize = 9;
 
     private Dictionary<Vector3I, BlockData>   _blocks = new();
     private Dictionary<Vector3I, Chunk> _chunks = new();
+    private FastNoiseLite
+     _noise;
 
     public override void _Ready()
     {
+        SetupNoise();
         GenerateBlockData();
         CreateChunks();
     }
 
+    private void SetupNoise()
+    {
+        _noise = new FastNoiseLite();
+        _noise.Seed = 1337;
+        _noise.Frequency = 0.005f;
+        _noise.NoiseType = FastNoiseLite.NoiseTypeEnum.Perlin;
+    } 
+
     private void GenerateBlockData()
     {
-        var rng = new System.Random();
+        // var rng = new System.Random();
         int worldWidth = ChunkSize * WorldSize;
 
         for (int x = 0; x < worldWidth; x++)
-		for (int y = 0; y < WorldHeight; y++)
         for (int z = 0; z < worldWidth; z++)
         {
-            if (rng.NextDouble() < 0.3) continue;
-            _blocks[new Vector3I(x, y, z)] = BlockData.Solid(rng.Next(0,3));
+            float raw    = _noise.GetNoise2D(x, z);         // -1 to 1
+            float norm   = (raw + 1f) / 2f;                 // 0 to 1
+            int   height = (int)(norm * WorldHeight) + 4;   // 4 to 36
+
+            for (int y = 0; y <= height; y++)
+            {
+                int blockType;
+
+                if (y == height)
+                    blockType = 0;
+                else if (y >= height - 3)
+                    blockType = 1;
+                else
+                    blockType = 2;
+
+                _blocks[new Vector3I(x, y, z)] = BlockData.Solid(blockType);
+            }
         }
     }
 
