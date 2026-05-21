@@ -1,21 +1,28 @@
 [gd_scene format=3 uid="uid://cltbvdbh2ffs4"]
 
-[ext_resource type="Script" uid="uid://bhiv3wlfrxhbe" path="res://VoxelCube.cs" id="1_f3sb7"]
-[ext_resource type="Script" uid="uid://ck8el5m7dw73k" path="res://FreeCam.cs" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://bmi37bc2ackpd" path="res://ChunkManager.cs" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://ck8el5m7dw73k" path="res://IsometricCamera.cs" id="2_fj7yv"]
 
 [node name="World" type="Node3D" unique_id=2084380380]
-script = ExtResource("1_f3sb7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=736589259]
+[node name="ChunkManager" type="Node3D" parent="." unique_id=1418192136]
+script = ExtResource("1_fj7yv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=271142188]
 transform = Transform3D(0.79904497, -0.3144765, 0.512476, 0, 0.85232085, 0.5230193, -0.6012713, -0.41791594, 0.6810427, 0.61919594, 0.98076665, -1.4356799)
+shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=763005217]
-transform = Transform3D(1, 0, 0, 0, 0.9646541, 0.2635195, 0, -0.2635195, 0.9646541, -0.0004937649, 0.5657635, 1.7833865)
+transform = Transform3D(0.70710677, -0.40860704, 0.5770964, 0, 0.8161376, 0.5778576, -0.70710677, -0.40860704, 0.5770964, 24, 30, 24)
 current = true
 fov = 61.5
+size = 50.0
 script = ExtResource("2_fj7yv")
-MoveSpeed = 2.0
-SpeedMultiplier = 1.0
-MouseSensitivity = 0.001
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=371379694]
+transform = Transform3D(1, 0, 0, 0, 0.18039894, 0.9835935, 0, -0.9835935, 0.18039894, 0, 14.255417, 0)
+visible = false
+light_color = Color(1.6845763e-06, 0.47554898, 0.47572255, 1)
+light_energy = 9.704
+shadow_enabled = true
+spot_range = 33.468243
