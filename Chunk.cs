@@ -86,17 +86,6 @@ public partial class Chunk : Node3D
         return (tileIndex / 6f, (tileIndex + 1) / 6f);
     }
 
-    private int GetTileIndex(Face face) => face switch
-    {
-        Face.Front  => 0,
-        Face.Back   => 1,
-        Face.Left   => 2,
-        Face.Right  => 3,
-        Face.Top    => 4,
-        Face.Bottom => 5,
-        _           => 0
-    };
-
     private void AddFace(
         List<Vector3> verts, List<Vector3> normals,
         List<Vector2> uvs,   List<int> indices,
@@ -154,10 +143,6 @@ public partial class Chunk : Node3D
 
         uvs.Add(new(uMin, 1)); uvs.Add(new(uMax, 1));
         uvs.Add(new(uMax, 0)); uvs.Add(new(uMin, 0));
-        
-        // var (uMin, uMax) = GetTileUVs(GetTileIndex(face));
-        // uvs.Add(new(uMin,1)); uvs.Add(new(uMax,1));
-        // uvs.Add(new(uMax,0)); uvs.Add(new(uMin,0));
 
         indices.Add(i);   indices.Add(i+2); indices.Add(i+1);
         indices.Add(i);   indices.Add(i+3); indices.Add(i+2);
