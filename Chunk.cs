@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public partial class Chunk : Node3D
 {
-    private Vector3I     _chunkCoord;
-    private ChunkManager _manager;
+    private Vector3I       _chunkCoord;
+    private ChunkManager   _manager;
     private MeshInstance3D _meshInstance;
+    private CollisionShape3D _collisionShape;
 
     // Called by ChunkManager before _Ready fires
     public void Initialise(Vector3I chunkCoord, ChunkManager manager)
@@ -36,6 +37,8 @@ public partial class Chunk : Node3D
         return _manager.IsSolid(ToWorld(x, y, z));
     }
 
+    public void Rebuild() => BuildMesh();
+
     private void BuildMesh()
     {
         var verts   = new List<Vector3>();
@@ -59,7 +62,12 @@ public partial class Chunk : Node3D
             if (!IsSolid(x, y - 1, z)) AddFace(verts, normals, uvs, indices, new Vector3(x,y,z), Face.Bottom, block.BlockType);
         }
 
-        if (verts.Count == 0) return;
+        if (verts.Count == 0)
+        {
+            _meshInstance.Mesh = null;
+            if (_collisionShape != null) _collisionShape.Shape = null;
+            return;
+        }
 
         var arrays = new Godot.Collections.Array();
         arrays.Resize((int)Mesh.ArrayType.Max);
@@ -150,14 +158,13 @@ public partial class Chunk : Node3D
 
     private void AddCollision(ArrayMesh mesh)
     {
-        // Remove old collision if rebuilding
-        var existing = GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        existing?.QueueFree();
-
-        var body  = new StaticBody3D { Name = "StaticBody3D" };
-        var shape = new CollisionShape3D();
-        shape.Shape = mesh.CreateTrimeshShape();
-        body.AddChild(shape);
-        AddChild(body);
+        if (_collisionShape == null)
+        {
+            var body = new StaticBody3D();
+            _collisionShape = new CollisionShape3D();
+            body.AddChild(_collisionShape);
+            AddChild(body);
+        }
+        _collisionShape.Shape = mesh.CreateTrimeshShape();
     }
 }

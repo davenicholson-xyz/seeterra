@@ -82,6 +82,35 @@ public partial class ChunkManager : Node3D
         }
     }
 
+    public void SetBlock(Vector3I worldPos, BlockData data)
+    {
+        if (data.IsSolid)
+            _blocks[worldPos] = data;
+        else
+            _blocks.Remove(worldPos);
+
+        RebuildChunkAt(worldPos);
+
+        // Rebuild the neighbour chunk too if the block sits on a border
+        int lx = ((worldPos.X % ChunkSize) + ChunkSize) % ChunkSize;
+        int lz = ((worldPos.Z % ChunkSize) + ChunkSize) % ChunkSize;
+        if (lx == 0)             RebuildChunkAt(worldPos + new Vector3I(-1, 0, 0));
+        if (lx == ChunkSize - 1) RebuildChunkAt(worldPos + new Vector3I( 1, 0, 0));
+        if (lz == 0)             RebuildChunkAt(worldPos + new Vector3I( 0, 0, -1));
+        if (lz == ChunkSize - 1) RebuildChunkAt(worldPos + new Vector3I( 0, 0,  1));
+    }
+
+    private void RebuildChunkAt(Vector3I worldPos)
+    {
+        var chunkCoord = new Vector3I(
+            Mathf.FloorToInt((float)worldPos.X / ChunkSize),
+            0,
+            Mathf.FloorToInt((float)worldPos.Z / ChunkSize));
+
+        if (_chunks.TryGetValue(chunkCoord, out Chunk chunk))
+            chunk.Rebuild();
+    }
+
     [Export] public bool DebugChunkBorders = false;
 
 private void CreateChunkDebugLines()
