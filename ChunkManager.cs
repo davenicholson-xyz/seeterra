@@ -17,6 +17,9 @@ public partial class ChunkManager : Node3D
         SetupNoise();
         GenerateBlockData();
         CreateChunks();
+
+            CreateChunkDebugLines();  // add this
+
     }
 
     private void SetupNoise()
@@ -80,4 +83,53 @@ public partial class ChunkManager : Node3D
             _chunks[chunkCoord] = chunk;
         }
     }
+
+    [Export] public bool DebugChunkBorders = false;
+
+private void CreateChunkDebugLines()
+{
+    if (!DebugChunkBorders) return;
+
+    int worldWidth = ChunkSize * WorldSize;
+    int lineHeight = WorldHeight + 10; // a bit taller than max terrain
+
+    // Draw a vertical line at every chunk corner
+    for (int cx = 0; cx <= WorldSize; cx++)
+    for (int cz = 0; cz <= WorldSize; cz++)
+    {
+        float wx = cx * ChunkSize;
+        float wz = cz * ChunkSize;
+
+        var verts = new Vector3[]
+        {
+            new(wx, 0,          wz),
+            new(wx, lineHeight, wz),
+        };
+
+        var colors = new Color[]
+        {
+            new(1, 0, 1, 1),  // magenta
+            new(1, 0, 1, 1),
+        };
+
+        var arrays = new Godot.Collections.Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+        arrays[(int)Mesh.ArrayType.Vertex] = verts;
+        arrays[(int)Mesh.ArrayType.Color]  = colors;
+
+        var mesh = new ArrayMesh();
+        mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Lines, arrays);
+
+        var mat = new StandardMaterial3D();
+        mat.ShadingMode        = BaseMaterial3D.ShadingModeEnum.Unshaded;
+        mat.VertexColorUseAsAlbedo = true;
+
+        var mi = new MeshInstance3D();
+        mi.Mesh             = mesh;
+        mi.MaterialOverride = mat;
+        mi.CastShadow       = GeometryInstance3D.ShadowCastingSetting.Off;
+        AddChild(mi);
+    }
+}
+
 }

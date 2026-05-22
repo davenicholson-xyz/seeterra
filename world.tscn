@@ -19,4 +19,3 @@ size = 50.0
 near = 0.1
 far = 1000.0
 script = ExtResource("2_fj7yv")
-
