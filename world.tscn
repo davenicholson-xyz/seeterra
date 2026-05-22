@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bmi37bc2ackpd" path="res://ChunkManager.cs" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ck8el5m7dw73k" path="res://IsometricCamera.cs" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://8d5st6rd2xjf" path="res://World.cs" id="3_world"]
 
 [node name="World" type="Node3D" unique_id=2084380380]
+script = ExtResource("3_world")
 
 [node name="ChunkManager" type="Node3D" parent="." unique_id=1418192136]
 script = ExtResource("1_fj7yv")

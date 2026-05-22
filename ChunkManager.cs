@@ -17,9 +17,7 @@ public partial class ChunkManager : Node3D
         SetupNoise();
         GenerateBlockData();
         CreateChunks();
-
-            CreateChunkDebugLines();  // add this
-
+        CreateChunkDebugLines();
     }
 
     private void SetupNoise()
