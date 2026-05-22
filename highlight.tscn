@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dvekmclbhe7wa"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1vme3"]
+size = Vector3(1.02, 1.02, 1.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qodas"]
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 1, 0.5176471, 0.10980392)
+
+[node name="Highlight" type="MeshInstance3D" unique_id=1620416309]
+mesh = SubResource("BoxMesh_1vme3")
+surface_material_override/0 = SubResource("StandardMaterial3D_qodas")

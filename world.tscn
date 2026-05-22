@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bmi37bc2ackpd" path="res://ChunkManager.cs" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ck8el5m7dw73k" path="res://IsometricCamera.cs" id="2_fj7yv"]
-[ext_resource type="PackedScene" uid="uid://cnjaqxor5lco5" path="res://highlight.tscn" id="3_tlwt5"]
 
 [node name="World" type="Node3D" unique_id=2084380380]
 
@@ -20,4 +19,4 @@ size = 50.0
 near = 0.1
 far = 1000.0
 script = ExtResource("2_fj7yv")
-HighlightScene = ExtResource("3_tlwt5")
+
