@@ -1,7 +1,7 @@
 // BlockRegistry.cs
 public static class BlockRegistry
 {
-    public const int TileCount = 3; // total tiles in atlas — update as you add more
+    public const int TileCount = 4; // total tiles in atlas — update as you add more
 
     private static readonly BlockDefinition[] _definitions = new BlockDefinition[]
     {

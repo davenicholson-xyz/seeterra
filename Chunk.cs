@@ -72,7 +72,7 @@ public partial class Chunk : Node3D
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
         _meshInstance.Mesh = mesh;
 
-        var texture = ResourceLoader.Load<Texture2D>("res://test_atlas.png");
+        var texture = ResourceLoader.Load<Texture2D>("res://test_atlas2.png");
         var mat = new StandardMaterial3D();
         mat.AlbedoTexture = texture;
         mat.TextureFilter = BaseMaterial3D.TextureFilterEnum.Nearest;

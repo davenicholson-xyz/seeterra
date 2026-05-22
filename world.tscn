@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmi37bc2ackpd" path="res://ChunkManager.cs" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ck8el5m7dw73k" path="res://IsometricCamera.cs" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://cnjaqxor5lco5" path="res://highlight.tscn" id="3_tlwt5"]
 
 [node name="World" type="Node3D" unique_id=2084380380]
 
@@ -19,10 +20,4 @@ size = 50.0
 near = 0.1
 far = 1000.0
 script = ExtResource("2_fj7yv")
-
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=371379694]
-transform = Transform3D(1, 0, 0, 0, 0.18039894, 0.9835935, 0, -0.9835935, 0.18039894, 0, 14.255417, 0)
-light_color = Color(1.6845763e-06, 0.47554898, 0.47572255, 1)
-light_energy = 9.704
-shadow_enabled = true
-spot_range = 33.468243
+HighlightScene = ExtResource("3_tlwt5")
