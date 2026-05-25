@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public partial class Chunk : Node3D
 {
-    private Vector3I       _chunkCoord;
-    private ChunkManager   _manager;
-    private MeshInstance3D _meshInstance;
+    private Vector3I         _chunkCoord;
+    private ChunkManager     _manager;
+    private MeshInstance3D   _meshInstance;
     private CollisionShape3D _collisionShape;
+    private StandardMaterial3D _material;
 
     // Called by ChunkManager before _Ready fires
     public void Initialise(Vector3I chunkCoord, ChunkManager manager)
@@ -19,6 +20,13 @@ public partial class Chunk : Node3D
     public override void _Ready()
     {
         _meshInstance = new MeshInstance3D();
+
+        var texture = ResourceLoader.Load<Texture2D>("res://test_atlas2.png");
+        _material = new StandardMaterial3D();
+        _material.AlbedoTexture = texture;
+        _material.TextureFilter = BaseMaterial3D.TextureFilterEnum.Nearest;
+        _meshInstance.MaterialOverride = _material;
+
         AddChild(_meshInstance);
         BuildMesh();
     }
@@ -79,12 +87,6 @@ public partial class Chunk : Node3D
         var mesh = new ArrayMesh();
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
         _meshInstance.Mesh = mesh;
-
-        var texture = ResourceLoader.Load<Texture2D>("res://test_atlas2.png");
-        var mat = new StandardMaterial3D();
-        mat.AlbedoTexture = texture;
-        mat.TextureFilter = BaseMaterial3D.TextureFilterEnum.Nearest;
-        _meshInstance.MaterialOverride = mat;
 
         AddCollision(mesh);
     }
