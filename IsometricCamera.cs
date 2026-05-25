@@ -42,6 +42,10 @@ public partial class IsometricCamera : Camera3D
         if (Input.IsKeyPressed(Key.A)) dir += new Vector3(-1, 0,  1);
         if (Input.IsKeyPressed(Key.D)) dir += new Vector3( 1, 0, -1);
 
+        if (Input.IsKeyPressed(Key.Q)) Size = Mathf.Clamp(Size - (ZoomStep / 2), ZoomMin, ZoomMax);
+        if (Input.IsKeyPressed(Key.E)) Size = Mathf.Clamp(Size + (ZoomStep / 2), ZoomMin, ZoomMax);
+
+
         if (dir != Vector3.Zero)
             Position += dir.Normalized() * MoveSpeed * delta;
     }
